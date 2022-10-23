@@ -26,7 +26,7 @@ word_max_size :int = 10
 def create_file_word(number :str):
     print(f'Файл {number} создаётся....')
     rand = random.randint(int(1E5), int(1E6))
-    create_files = CreateFiles(f'./files/Process-{number}-{os.getpid()}.txt')
+    create_files = CreateFiles('./files', f'Process-{number}-{os.getpid()}.txt')
     create_files.fill_file_word(word_max_size, rand, True)
     
 def analise_files(file_name :str):

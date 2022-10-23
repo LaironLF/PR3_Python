@@ -1,10 +1,15 @@
 from typing import List
 from RandomWordGenerator import RandomWord
+import os
 
 class CreateFiles:
     # | Объявляем объект класса с путём для создания файлов
-    def __init__(self, file_path :str) -> None:
-        self.file_path = file_path
+    def __init__(self, file_path :str, name :str) -> None:
+        try:
+            os.mkdir(file_path)
+        except Exception as e:
+            pass
+        self.file_path = file_path + '/' + name
         pass
     
     # | создаём файл с листом слов текста
