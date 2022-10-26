@@ -22,14 +22,13 @@ class AnalisysFiles:
     
     #| Перебор файла по строкам, затем анализ слова
     def Analise(self):
-        file = open(self.file_path, 'r')
-        while True:
-            word_line = file.readline()
-            if word_line == '':
-                break
-            else:
-                self.__word_analis(word_line)
-        file.close
+        with open(self.file_path, 'r') as file:
+            while True:
+                word_line = file.readline()
+                if word_line == '':
+                    break
+                else:
+                    self.__word_analis(word_line)
         self.word_types = sort(self.word_types)
         # self.print_result()
     

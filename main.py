@@ -43,8 +43,7 @@ if __name__ == '__main__':
         list_process.append(proc)
     [proc.join() for proc in list_process] # | Закрываем все процессы
     list_process.clear()                   # | Очищаем лист процессов
-    
-    
+
     for file_name in os.listdir('./files'):
         if (len(list_process) >= 8): break # | Защищаем мой бедненький компьютер от моей невнимательности
         proc = Process(target=analise_files, args=(file_name,))
