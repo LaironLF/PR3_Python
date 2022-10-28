@@ -2,16 +2,17 @@ from typing import List
 
 class AnaliseFile:
     def __init__(self, file_path: str) -> None:
-        self.file_path = file_path # присваиваем объекту класса путь файла, который будем анализировать
-        self.char_count :int = 0 # число символов в файле
-        self.sogl_count : int = 0  # количество согласных
-        self.glas_count : int = 0  # количество гласных
-        self.word_repeat : List[int] = [] # массив с повторениями слов с разной длиной
+        self.file_path = file_path              # присваиваем объекту класса путь файла, который будем анализировать
+        self.char_count :int = 0                # число символов в файле
+        self.sogl_count : int = 0               # количество согласных
+        self.glas_count : int = 0               # количество гласных
+        self.word_repeat : List[int] = []       # массив с повторениями слов с разной длиной
+        self.count_words :int = 0
         #в результате будет выглядеть как двумерный массив:
         #[[1, 13]
         #[4, 15]
         #[9, 12]
-        #[3, 54]
+        #[3, 54]]
         # где 1 столбец - длина слова, 2 столбец - количество повторений слова с такой длиной.
        
     # функция анализа 
@@ -30,14 +31,25 @@ class AnaliseFile:
                 self.__summ_glas_count(word)    # суммируем гласные слова
                 self.__summ_word_repeat(word)   # суммируем повторения слов с разной длиной
         finally:
-            file.close() # и ещё раз закрываем файл, НАВСЯКИЙ СЛУЧАЙ ЧТОБЫ ПОСЛЕ ОШИБОК НЕ ВИСЕЛИ ЭТИ ЕБУЧИЕ ПРОЦЕССЫ БЛЯЯЯЯТЬ
+            file.close()                # и ещё раз закрываем файл, НАВСЯКИЙ СЛУЧАЙ ЧТОБЫ ПОСЛЕ ОШИБОК НЕ ВИСЕЛИ ЭТИ ЕБУЧИЕ ПРОЦЕССЫ БЛЯЯЯЯТЬ
+            self.word_repeat.sort()     # сортируем список повторов слов и их длины. Благо методы питона прекрасно всё это делают за нас)
+            [self.increment_count_words(wordcount[1]) for wordcount in self.word_repeat]
             
+    def increment_count_words(self, count: int):
+        self.count_words += count
+        
     def printResult(self):
-        print(self.file_path)
-        print(self.char_count)
-        print(self.sogl_count)
-        print(self.glas_count)
-        print(self.word_repeat)
+        print('*'*70+'\n'
+              f' Аналитика для файла {self.file_path}\n'+
+              '*'*70+'\n'
+              f' 1. Всего символов --> {self.char_count}\n'
+              f' 2. Максимальная длина слова --> {self.word_repeat[len(self.word_repeat)-1][0]}\n'
+              f' 3. Минимальная длина слова --> {self.word_repeat[0][0]}\n'
+              f' 4. Средняя длина слова --> {round(self.char_count/self.count_words)}\n'
+              f' 5. Количество гласных --> {self.glas_count}\n'
+              f' 6. Количество согласных --> {self.sogl_count}\n'
+              f' 7. Количество повторений с одинаковой длиной:\n')
+        [print(f'\t * {word[0]} сим. >> {word[1]} повтор.') for word in self.word_repeat]
     
     # функция суммирования согласных
     def __summ_sogl_count(self, word):
